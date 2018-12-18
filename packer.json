@@ -4,15 +4,16 @@
     "subnet": "{{env `BUILD_SUBNET_ID`}}",
     "aws_region": "{{env `AWS_REGION`}}",
     "rhelVersion": "7.5",
-    "ami_name": ""
+    "ami_name": "AIG"
   },
   "builders": [{
     "name": "AWS AMI Builder",
     "type": "amazon-ebs",
     "region": "{{user `aws_region`}}",
-    "ami_name": "{{user `ami_name`}}-{{user `rhelVersion`}}-{{isotime \"2006-01-02\"}}",
+    
     "source_ami_filter": {
         "filters": {
+            "ami_name": "{{user `ami_name`}}-{{user `rhelVersion`}}-{{isotime \"2006-01-02\"}}",
             "virtualization-type": "hvm",
             "architecture": "x86_64",
             "name": "RHEL*-{{user `rhelVersion`}}*",
@@ -23,7 +24,7 @@
     },
     "instance_type": "t2.micro",
     "ssh_username": "ec2-user",
-    "Name": "{{user `ami_name` | clean_ami_name}}",
+    "ami_name": "{{user `ami_name` | clean_ami_name}}",
     "tags": {
       "Name": "{{user `ami_name`}}"
     },

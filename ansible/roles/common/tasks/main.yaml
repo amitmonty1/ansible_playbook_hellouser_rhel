@@ -1,0 +1,15 @@
+---
+- name: update apt cache
+  apt: 
+    update_cache: yes
+
+- name: install systemd repo  
+  apt_repository: 
+    repo: 'ppa:pitti/systemd'
+
+- name: install systemd
+  apt:
+    name: systemd
+    install_recommends: true
+
+  

@@ -1,0 +1,22 @@
+---
+- name: restart hello-user 
+  service: 
+    name: hello-user
+    state: restarted
+
+- name: stop hello-user
+  service: 
+    name: hello-user 
+    state: stopped
+
+- name: start hello-user
+  service: 
+    name: hello-user 
+    state: started
+  listen: "enable hello-user service"
+
+- name: enable hello-user
+  service: 
+    name: hello-user
+    enabled: yes
+  listen: "enable hello-user service"

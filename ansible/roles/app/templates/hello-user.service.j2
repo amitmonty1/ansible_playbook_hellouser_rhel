@@ -1,0 +1,11 @@
+[Unit]
+Description=HelloUser Service
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/hello-user
+WatchdogSec=30s
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

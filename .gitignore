@@ -1,0 +1,6 @@
+*.retry
+.ansible
+.vagrant/*
+infra/terraform/.terraform/*
+*.tfs*
+.terraform

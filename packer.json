@@ -1,0 +1,71 @@
+{
+  "variables": {
+    "vpc": "{{env `BUILD_VPC_ID`}}",
+    "subnet": "{{env `BUILD_SUBNET_ID`}}",
+    "aws_region": "{{env `AWS_REGION`}}",
+    "rhelVersion": "7.5",
+    "ami_name": ""
+  },
+  "builders": [{
+    "name": "AWS AMI Builder",
+    "type": "amazon-ebs",
+    "region": "{{user `aws_region`}}",
+    "ami_name": "{{user `ami_name`}}-{{user `rhelVersion`}}-{{isotime \"2006-01-02\"}}",
+    "source_ami_filter": {
+        "filters": {
+            "virtualization-type": "hvm",
+            "architecture": "x86_64",
+            "name": "RHEL*-{{user `rhelVersion`}}*",
+            "root-device-type": "ebs"
+        },
+        "owners": ["309956199498"],
+        "most_recent": true
+    },
+    "instance_type": "t2.micro",
+    "ssh_username": "ec2-user",
+    "tags": {
+      "Name": "{{user `ami_name`}}"
+    },
+    "run_tags": { 
+      "Name": "{{user `ami_name`}}"
+    },
+    "run_volume_tags": {
+      "Name": "{{user `ami_name`}}"
+    },
+    "snapshot_tags": {
+      "Name": "{{user `ami_name`}}"
+    },
+    "ami_description": "AMI Base",
+    "associate_public_ip_address": "true",
+    "vpc_id": "{{user `vpc`}}",
+    "subnet_id": "{{user `subnet`}}"
+  }],
+  "provisioners": [
+    {
+        "type": "shell",
+        "inline": [
+            "yum install wget -y",
+            "sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm",
+            "sudo yum update -y",
+            "sudo yum install ansible",
+            "sudo yum install net-tools -y"            
+        ]
+    }, 
+    {
+        "type": "ansible-local",
+        "playbook_file": "ansible/playbook.yaml",
+        "group_vars": "ansible/group_vars",
+        "role_paths": [
+            "ansible/roles/main",
+            "ansible/roles/common",
+            "ansible/roles/app"
+        ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "rm .ssh/authorized_keys ; sudo rm /root/.ssh/authorized_keys"
+      ]
+    }
+  ]
+}

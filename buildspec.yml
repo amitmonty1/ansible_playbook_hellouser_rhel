@@ -1,0 +1,30 @@
+---
+version: 0.1
+phases:
+  pre_build:
+    commands:
+      - echo "Installing Dependencies"
+      - yum update
+      - yum install -y curl
+      - echo "Installing Packer"
+      - curl -o packer.zip https://releases.hashicorp.com/packer/1.3.3/packer_1.3.3_linux_amd64.zip && unzip packer.zip
+      - echo "Installing jq..."
+      - curl -qL -o jq https://stedolan.github.io/jq/download/linux64/jq && chmod +x ./jq
+      - echo "Validating Packer template"
+      - ./packer validate packer.json
+  build:
+    commands:
+      - ./packer build -color=false packer.json | tee build.log
+  post_build:
+    commands:
+      - egrep "${AWS_REGION}\:\sami\-" build.log | cut -d' ' -f2 > ami_id.txt
+      # Packer doesn't return non-zero status; we must do that if Packer build failed
+      - test -s ami_id.txt || exit 1
+      - sed -i.bak "s/<<AMI-ID>>/$(cat ami_id.txt)/g" ami_build_event.json
+      - aws events put-events --entries file://ami_build_event.json
+      - echo "build completed on `date`"
+artifacts:
+  files:
+    - ami_build_event.json
+    - build.log
+  discard-paths: yes

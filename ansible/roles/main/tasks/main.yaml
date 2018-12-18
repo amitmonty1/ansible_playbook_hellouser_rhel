@@ -1,0 +1,9 @@
+---
+- name: Common
+  include_role:
+    name: common
+    when: ansible_distribution == "Ubuntu"
+
+- name: App  
+  include_role:
+    name: app

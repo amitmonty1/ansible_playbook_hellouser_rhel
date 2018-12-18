@@ -1,0 +1,22 @@
+---
+version: 0.1
+phases:
+  pre_build:
+    commands:
+      - echo "Installing Dependencies"
+      - yum update
+      - yum install -y curl
+      - echo "Installing Terraform"
+      - curl -o terraform.zip https://releases.hashicorp.com/terraform/0.11.10/terraform_0.11.10_linux_amd64.zip && unzip terraform.zip
+  build:
+    commands:
+      - echo "Updating autoscaling group...running terraform"
+      - ./terraform init infra/terraform/app_stack
+      - ./terraform apply -auto-approve infra/terraform/app_stack
+  post_build:
+    commands:
+      - echo "build completed on `date`"
+artifacts:
+  files:
+    - build.log
+  discard-paths: yes

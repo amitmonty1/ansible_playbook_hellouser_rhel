@@ -1,0 +1,19 @@
+---
+- name: Download Hello-User
+  get_url: 
+    url: https://github.com/callmeradical/hello-user/releases/download/{{ version }}/hello-user 
+    dest: /usr/bin/hello-user
+
+- name: Set Hello-User permissions
+  file: 
+    path: /usr/bin/hello-user
+    owner: root
+    mode: 0755
+
+- name: Create systemd definition
+  template:
+    src: templates/hello-user.service.j2
+    dest: /etc/systemd/system/hello-user.service
+    owner: root
+    mode: 0644
+  notify: "enable hello-user service" 

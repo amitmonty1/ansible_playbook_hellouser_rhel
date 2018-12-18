@@ -13,10 +13,10 @@
     
     "source_ami_filter": {
         "filters": {
-            "ami_name": "{{user `ami_name`}}-{{user `rhelVersion`}}-{{isotime \"2006-01-02\"}}",
+            "name": "{{user `ami_name`}}-{{user `rhelVersion`}}-{{isotime \"2006-01-02\"}}",
             "virtualization-type": "hvm",
             "architecture": "x86_64",
-            "name": "RHEL*-{{user `rhelVersion`}}*",
+            "ami_name": "RHEL*-{{user `rhelVersion`}}*",
             "root-device-type": "ebs"
         },
         "owners": ["309956199498"],

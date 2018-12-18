@@ -10,9 +10,8 @@
     "name": "AWS AMI Builder",
     "type": "amazon-ebs",
     "region": "{{user `aws_region`}}",
-    
     "source_ami_filter": {
-        "filters": 
+        "filters": {
             "virtualization-type": "hvm",
             "architecture": "x86_64",
             "name": "RHEL*-{{user `rhelVersion`}}*",

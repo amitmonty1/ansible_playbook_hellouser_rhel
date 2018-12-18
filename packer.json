@@ -4,7 +4,7 @@
     "subnet": "{{env `BUILD_SUBNET_ID`}}",
     "aws_region": "{{env `AWS_REGION`}}",
     "rhelVersion": "7.5",
-    "ami_name": "AIG"
+    "ami_name": "hellouser-rhel7.5-{{isotime \"02-Jan-06 03_04_05\"}}"
   },
   "builders": [{
     "name": "AWS AMI Builder",
@@ -12,11 +12,10 @@
     "region": "{{user `aws_region`}}",
     
     "source_ami_filter": {
-        "filters": {
-            "name": "{{user `ami_name`}}-{{user `rhelVersion`}}-{{isotime \"2006-01-02\"}}",
+        "filters": 
             "virtualization-type": "hvm",
             "architecture": "x86_64",
-            "ami_name": "RHEL*-{{user `rhelVersion`}}*",
+            "name": "RHEL*-{{user `rhelVersion`}}*",
             "root-device-type": "ebs"
         },
         "owners": ["309956199498"],

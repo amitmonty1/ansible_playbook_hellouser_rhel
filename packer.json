@@ -23,6 +23,7 @@
     },
     "instance_type": "t2.micro",
     "ssh_username": "ec2-user",
+    "Name": "{{user `ami_name` | clean_ami_name}}",
     "tags": {
       "Name": "{{user `ami_name`}}"
     },

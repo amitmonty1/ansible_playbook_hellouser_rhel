@@ -4,8 +4,8 @@ phases:
   pre_build:
     commands:
       - echo "Installing Dependencies"
-      - sudo yum update -y
-      - yum install curl -y
+      - apt-get update
+      - apt-get install -y curl
       - echo "Installing Terraform"
       - curl -o terraform.zip https://releases.hashicorp.com/terraform/0.11.10/terraform_0.11.10_linux_amd64.zip && unzip terraform.zip
   build:

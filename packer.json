@@ -44,7 +44,7 @@
     {
         "type": "shell",
         "inline": [
-            "yum install wget -y",
+            "sudo yum install wget -y",
             "sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm",
             "sudo yum update -y",
             "sudo yum install ansible",

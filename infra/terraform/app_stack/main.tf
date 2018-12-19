@@ -88,7 +88,7 @@ resource "aws_autoscaling_group" "app" {
 
   tag {
     key                 = "Name"
-    value               = "HelloUser - Ubuntu"
+    value               = "HelloUser - RHEL7.5"
     propagate_at_launch = true
   }
 }
